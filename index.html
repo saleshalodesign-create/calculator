@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signage Pricing Calculator</title>
+    <!-- Load Tailwind CSS for modern, responsive styling --><script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #5DE23C;
+        }
+        /* Style for the quotation modal to ensure smooth transition */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 300ms, transform 300ms;
+        }
+        .modal-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 300ms, transform 300ms;
+        }
+        
+        /* === Watermark Styling === */
+        /* Apply relative positioning and overflow hidden to both the main results and the modal content */
+        #results, #modalContent {
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        /* Apply the watermark effect to both elements using the ::before pseudo-element */
+        #results::before, #modalContent::before {
+            content: "HALO DESIGN HUB";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* Rotate and shift the text to be centered and diagonal */
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 3.5rem; /* Larger text for visibility */
+            color: #000000;
+            opacity: 0.05; /* Very faint transparency */
+            font-weight: 900;
+            white-space: nowrap; /* Prevent text wrapping */
+            z-index: 0; /* Ensure it is behind the content */
+            pointer-events: none; /* Prevents the watermark from blocking mouse clicks on cards or modal elements */
+            line-height: 1;
+        }
+        /* === End Watermark Styling === */
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex justify-center items-start min-h-screen">
+
+    <div class="w-full max-w-xl bg-white shadow-2xl rounded-xl p-6 sm:p-10 border border-gray-100">
+        <!-- Logo: Reduced mobile font size from text-3xl to text-2xl and desktop size from sm:text-4xl to sm:text-3xl for better fit on small screens. --><div class="flex justify-center mb-6 w-full">
+            <div class="h-20 w-auto object-contain rounded-lg shadow-md bg-indigo-700 text-white font-black text-2xl sm:text-3xl p-4 flex items-center justify-center tracking-wider">
+                HALO DESIGN PTE LTD
+            </div>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-2 text-center">Signage Pricing</h1>
+        
+        <!-- Main Conversion Input - Changed from yellow to light green --><div class="space-y-6 mb-10 p-6 bg-green-50 rounded-xl shadow-inner border border-green-200">
+             <h2 class="text-xl font-bold text-green-800">Unit Conversion Input</h2>
+             
+            <!-- Unit Selector --><div>
+                <label for="unit" class="block text-sm font-medium text-gray-700 mb-2">
+                    Measurement Unit
+                </label>
+                <select id="unit" onchange="calculatePricing()"
+                        class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-lg transition duration-150 shadow-sm">
+                    <option value="in">Inches (in)</option>
+                    <option value="ft">Feet (ft)</option>
+                    <option value="cm">Centimeters (cm)</option>
+                    <option value="mm">Millimeters (mm)</option>
+                </select>
+            </div>
+
+            <!-- Width Input --><div>
+                <label for="width" class="block text-sm font-medium text-gray-700 mb-2">
+                    Width (W)
+                </label>
+                <div class="mt-1 relative rounded-lg shadow-sm">
+                    <input type="number" id="width" min="0" value="117"
+                           oninput="calculatePricing()"
+                           class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-lg transition duration-150"
+                           placeholder="e.g., 112">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <span class="text-gray-400 sm:text-sm" id="widthUnitLabel">in</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Height Input --><div>
+                <label for="height" class="block text-sm font-medium text-gray-700 mb-2">
+                    Height (H)
+                </label>
+                <div class="mt-1 relative rounded-lg shadow-sm">
+                    <input type="number" id="height" min="0" value="30"
+                           oninput="calculatePricing()"
+                           class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-lg transition duration-150"
+                           placeholder="e.g., 30">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <span class="text-gray-400 sm:text-sm" id="heightUnitLabel">in</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conversion Results -->
+            <div id="conversionResults" class="mt-4 p-4 bg-green-100 rounded-lg text-green-900">
+                <h3 class="font-semibold text-base mb-2">Converted Dimensions (for 117 x 30 in)</h3>
+                <!-- Structure updated: text-sm changed to text-xs, and labels simplified (W, H) -->
+                <ul class="text-xs grid grid-cols-2 gap-x-4 gap-y-1">
+                    <!-- Row 1: Feet -->
+                    <li><strong class="font-medium">W (ft):</strong> <span id="w_ft">0.00 ft</span></li>
+                    <li><strong class="font-medium">H (ft):</strong> <span id="h_ft">0.00 ft</span></li>
+                    <!-- Row 2: Centimeters -->
+                    <li><strong class="font-medium">W (cm):</strong> <span id="w_cm">0.00 cm</span></li>
+                    <li><strong class="font-medium">H (cm):</strong> <span id="h_cm">0.00 cm</span></li>
+                    <!-- Row 3: Millimeters -->
+                    <li><strong class="font-medium">W (mm):</strong> <span id="w_mm">0.00 mm</span></li>
+                    <li><strong class="font-medium">H (mm):</strong> <span id="h_mm">0.00 mm</span></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- Pricing Results Display -->
+        <div id="results" class="space-y-4 pt-6 border-t border-gray-200">
+            <h2 class="text-xl font-bold text-gray-800">Calculated Prices</h2>
+            <!-- This element content has been removed as requested -->
+            <p class="text-sm text-gray-500" id="areaDisplay"></p>
+
+            <!-- Lightbox w Backlit Result Card ($85/sq ft) - Clickable. Renamed from Lightbox Only -->
+            <div class="bg-indigo-50 p-5 rounded-xl shadow-md flex justify-between items-center transition duration-300 hover:shadow-lg cursor-pointer" 
+                 onclick="showQuotation('Lightbox w Backlit', 85, document.getElementById('lightboxOnlyPrice').textContent)">
+                <span class="font-semibold text-lg text-indigo-800">Lightbox w Backlit ($85/sq ft)</span>
+                <span id="lightboxOnlyPrice" class="text-2xl font-extrabold text-indigo-600">$0.00</span>
+            </div>
+            
+            <!-- Lightbox Only Result Card ($50/sq ft) - Clickable. Renamed from Lightbox Standard -->
+            <div class="bg-blue-50 p-5 rounded-xl shadow-md flex justify-between items-center transition duration-300 hover:shadow-lg cursor-pointer" 
+                 onclick="showQuotation('Lightbox Only', 50, document.getElementById('lightboxStandardPrice').textContent)">
+                <span class="font-semibold text-lg text-blue-800">Lightbox Only ($50/sq ft)</span>
+                <span id="lightboxStandardPrice" class="text-2xl font-extrabold text-blue-600">$0.00</span>
+            </div>
+
+
+            <!-- Backlit Only Result Card ($35/sq ft) - Clickable -->
+            <div class="bg-gray-50 p-5 rounded-xl shadow-md flex justify-between items-center transition duration-300 hover:shadow-lg cursor-pointer" 
+                 onclick="showQuotation('Backlit Only', 35, document.getElementById('backlitPrice').textContent)">
+                <span class="font-semibold text-lg text-gray-800">Backlit Only ($35/sq ft)</span>
+                <span id="backlitPrice" class="text-2xl font-extrabold text-gray-600">$0.00</span>
+            </div>
+            
+            <!-- Vinyl Result Card ($20/sq ft) - Clickable -->
+            <div class="bg-green-50 p-5 rounded-xl shadow-md flex justify-between items-center transition duration-300 hover:shadow-lg cursor-pointer" 
+                 onclick="showQuotation('Vinyl Graphics', 20, document.getElementById('vinylPrice').textContent)">
+                <span class="font-semibold text-lg text-green-800">Vinyl Pricing ($20/sq ft)</span>
+                <span id="vinylPrice" class="text-2xl font-extrabold text-green-600">$0.00</span>
+            </div>
+            
+            <!-- 3D Printed Result Card ($120/sq ft) - Clickable -->
+            <div class="bg-purple-50 p-5 rounded-xl shadow-md flex justify-between items-center transition duration-300 hover:shadow-lg cursor-pointer" 
+                 onclick="showQuotation('3D Printed Sign', 120, document.getElementById('printedPrice').textContent)">
+                <span class="font-semibold text-lg text-purple-800">3D Printed Pricing ($120/sq ft)</span>
+                <span id="printedPrice" class="text-2xl font-extrabold text-purple-600">$0.00</span>
+            </div>
+            
+            <!-- LED Strip Result Card ($17/meter) - Clickable -->
+            <div class="bg-amber-50 p-5 rounded-xl shadow-md flex justify-between items-center transition duration-300 hover:shadow-lg cursor-pointer" 
+                 onclick="showQuotation('LED Strip Lighting ($17/meter)', 0, document.getElementById('ledStripPrice').textContent)">
+                <span class="font-semibold text-lg text-amber-800">LED Strip Pricing ($17/meter)</span>
+                <span id="ledStripPrice" class="text-2xl font-extrabold text-amber-600">$0.00</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Quotation Modal Overlay -->
+    <div id="quoteModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 transition-opacity duration-300" onclick="hideQuotation()">
+        <!-- Modal Content. The watermark will appear on this element. -->
+        <div id="modalContent" class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 sm:p-8 relative modal-enter" onclick="event.stopPropagation()">
+            <!-- Close Button -->
+            <button onclick="hideQuotation()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition duration-150">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <h3 class="text-2xl font-extrabold text-indigo-700 mb-6 border-b pb-2">Quotation</h3>
+
+            <!-- Dynamic Content (Simplified) -->
+            <div id="quoteContent" class="space-y-4 text-gray-700">
+                
+                <div class="text-xl font-bold text-gray-800 border-b pb-2" id="quoteSignageType"></div>
+                
+                <p class="font-semibold text-lg pt-2" id="quoteDimsTitle">Sizes (W x H):</p>
+                <div class="text-xl font-medium text-gray-600 ml-4" id="quoteFinalDims"></div>
+                
+                <div class="pt-4 border-t border-gray-200">
+                    <p class="font-semibold mb-2 text-xl text-green-600">Total Price:</p>
+                    <div class="text-4xl font-extrabold text-green-700" id="quoteTotal"></div>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-4 border-t text-sm text-gray-500 text-center">
+                <p>This is an automated quote based on your input dimensions.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Constants for conversion (all relative to 1 inch)
+        const CM_PER_INCH = 2.54;
+        const MM_PER_INCH = 25.4;
+        const INCHES_PER_FOOT = 12;
+        
+        // Pricing Rates (Updated names to reflect new product categories)
+        const LIGHTBOX_ONLY_RATE_50 = 50; // $50/sq ft (formerly Lightbox Standard)
+        const LIGHTBOX_W_BACKLIT_RATE_85 = 85; // $85/sq ft (formerly Lightbox Only)
+        const BACKLIT_ONLY_RATE = 35; // $35/sq ft (No change)
+
+        // Global variables to store the last calculated data for the quote
+        let lastAreaSqFt = 0;
+        let lastWidthFt = 0;
+        let lastHeightFt = 0;
+        let lastWidthInput = 0;
+        let lastHeightInput = 0;
+        let lastUnitLabel = 'in';
+
+        /**
+         * Converts a value from any supported unit to inches.
+         * @param {number} value - The input dimension value.
+         * @param {string} unit - The unit of the input ('in', 'ft', 'cm', 'mm').
+         * @returns {number} The dimension in inches.
+         */
+        function convertToInches(value, unit) {
+            switch (unit) {
+                case 'in':
+                    return value;
+                case 'ft':
+                    return value * INCHES_PER_FOOT;
+                case 'cm':
+                    return value / CM_PER_INCH;
+                case 'mm':
+                    return value / MM_PER_INCH;
+                default:
+                    return 0;
+            }
+        }
+
+        /**
+         * Converts a value from inches to a specified target unit.
+         * @param {number} valueInches - The dimension in inches.
+         * @param {string} targetUnit - The target unit ('ft', 'cm', 'mm').
+         * @returns {number} The dimension in the target unit.
+         */
+        function convertFromInches(valueInches, targetUnit) {
+            switch (targetUnit) {
+                case 'ft':
+                    return valueInches / INCHES_PER_FOOT;
+                case 'cm':
+                    return valueInches * CM_PER_INCH;
+                case 'mm':
+                    return valueInches * MM_PER_INCH;
+                default:
+                    return valueInches; // Should not happen
+            }
+        }
+
+        /**
+         * Displays the quotation modal with detailed information.
+         * @param {string} signageType - The name of the signage product.
+         * @param {number} rate - The price per square foot. (Not strictly needed in UI but kept for reference)
+         * @param {string} total - The calculated total price string (e.g., "$123.45").
+         */
+        function showQuotation(signageType, rate, total) {
+            const modal = document.getElementById('quoteModal');
+            const content = document.getElementById('modalContent');
+            
+            // Check if calculation data is valid before showing the quote
+            if (lastAreaSqFt <= 0) {
+                // Display error message
+                content.innerHTML = `
+                    <h3 class="text-2xl font-extrabold text-red-700 mb-6 border-b pb-2">Error</h3>
+                    <p class="text-lg text-gray-700">Please enter valid positive dimensions before generating a quote.</p>
+                    <button onclick="hideQuotation()" class="mt-6 w-full bg-indigo-500 text-white p-3 rounded-lg hover:bg-indigo-600 transition">Close</button>
+                `;
+                content.classList.remove('bg-white');
+                content.classList.add('bg-red-100');
+                modal.classList.remove('hidden');
+                return;
+            }
+            
+            // Reset content classes (in case of prior error)
+            content.classList.remove('bg-red-100');
+            content.classList.add('bg-white');
+            
+            // Populate dynamic content
+            document.getElementById('quoteSignageType').textContent = signageType;
+            document.getElementById('quoteTotal').textContent = total;
+            
+            // Simplified Dimension Display: show only the input dimensions in inches, rounded to the nearest whole number for clean display
+            const widthInchesDisplay = lastWidthInput % 1 === 0 ? lastWidthInput : lastWidthInput.toFixed(2);
+            const heightInchesDisplay = lastHeightInput % 1 === 0 ? lastHeightInput : lastHeightInput.toFixed(2);
+
+            document.getElementById('quoteFinalDims').textContent = 
+                `${widthInchesDisplay}'' (W) x ${heightInchesDisplay}'' (H)`;
+            
+            // Display modal
+            modal.classList.remove('hidden');
+            content.classList.add('modal-enter-active');
+            content.classList.remove('modal-enter');
+        }
+
+        /**
+         * Hides the quotation modal.
+         */
+        function hideQuotation() {
+            const modal = document.getElementById('quoteModal');
+            const content = document.getElementById('modalContent');
+            
+            content.classList.add('modal-exit-active');
+            content.classList.remove('modal-enter-active');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                content.classList.remove('modal-exit-active');
+                content.classList.add('modal-enter'); // Prepare for next open
+            }, 300); // Match transition duration
+        }
+
+
+        // Function to perform the pricing and conversion calculations
+        function calculatePricing() {
+            // Get input values and selected unit
+            const unit = document.getElementById('unit').value;
+            const widthValue = parseFloat(document.getElementById('width').value);
+            const heightValue = parseFloat(document.getElementById('height').value);
+            
+            // Update the display labels for the input units
+            const unitLabelElement = document.getElementById('unit');
+            const unitLabelTextMatch = unitLabelElement.options[unitLabelElement.selectedIndex].text.match(/\((.*?)\)/);
+            const unitLabelText = unitLabelTextMatch ? unitLabelTextMatch[1] : unit;
+            
+            document.getElementById('widthUnitLabel').textContent = unitLabelText;
+            document.getElementById('heightUnitLabel').textContent = unitLabelText;
+
+            // Check if inputs are valid positive numbers
+            if (isNaN(widthValue) || isNaN(heightValue) || widthValue <= 0 || heightValue <= 0) {
+                // If invalid, reset global data and displays
+                lastAreaSqFt = 0;
+                lastWidthInput = 0;
+                lastHeightInput = 0;
+                lastUnitLabel = unitLabelText;
+
+                // Clears the area display text as requested by the user
+                document.getElementById('areaDisplay').textContent = '';
+                document.getElementById('lightboxOnlyPrice').textContent = '$0.00'; // Renamed ID
+                document.getElementById('lightboxStandardPrice').textContent = '$0.00'; 
+                document.getElementById('backlitPrice').textContent = '$0.00'; 
+                document.getElementById('vinylPrice').textContent = '$0.00';
+                document.getElementById('printedPrice').textContent = '$0.00';
+                document.getElementById('ledStripPrice').textContent = '$0.00'; 
+                
+                document.getElementById('w_ft').textContent = '0.00 ft';
+                document.getElementById('h_ft').textContent = '0.00 ft';
+                document.getElementById('w_cm').textContent = '0.00 cm';
+                document.getElementById('h_cm').textContent = '0.00 cm';
+                document.getElementById('w_mm').textContent = '0.00 mm';
+                document.getElementById('h_mm').textContent = '0.00 mm';
+                return;
+            }
+
+            // 1. Convert inputs to base unit (inches)
+            const widthInches = convertToInches(widthValue, unit);
+            const heightInches = convertToInches(heightValue, unit);
+
+            // 2. Perform Conversions and Update Conversion UI
+            const w_ft = convertFromInches(widthInches, 'ft');
+            const h_ft = convertFromInches(heightInches, 'ft');
+            const w_cm = convertFromInches(widthInches, 'cm');
+            const h_cm = convertFromInches(heightInches, 'cm');
+            const w_mm = convertFromInches(widthInches, 'mm');
+            const h_mm = convertFromInches(heightInches, 'mm');
+
+            // Update global data for quotation
+            lastWidthFt = w_ft;
+            lastHeightFt = h_ft;
+            lastWidthInput = widthValue;
+            lastHeightInput = heightValue;
+            lastUnitLabel = unitLabelText;
+
+            document.getElementById('w_ft').textContent = `${w_ft.toFixed(2)} ft`;
+            document.getElementById('h_ft').textContent = `${h_ft.toFixed(2)} ft`;
+            document.getElementById('w_cm').textContent = `${w_cm.toFixed(2)} cm`;
+            document.getElementById('h_cm').textContent = `${h_cm.toFixed(2)} cm`;
+            document.getElementById('w_mm').textContent = `${w_mm.toFixed(2)} mm`;
+            document.getElementById('h_mm').textContent = `${h_mm.toFixed(2)} mm`;
+            
+            // Update the conversion result title to reflect the current input
+            document.getElementById('conversionResults').querySelector('h3').textContent = 
+                `Converted Dimensions (for ${widthValue} ${unitLabelText} x ${heightValue} ${unitLabelText})`;
+
+
+            // 3. Calculate Area in Square Feet
+            // Formula: (W_in / 12) * (H_in / 12)
+            const areaSqFt = w_ft * h_ft;
+            lastAreaSqFt = areaSqFt; // Save area globally
+
+            // 4. Define Rates and Calculate Prices
+            // Rates are defined globally now for clarity
+            const VINYL_RATE = 20;
+            const PRINTED_RATE = 120; 
+            
+            // LED Strip Calculation constants
+            const LED_STRIP_DIVISOR_W = 39;
+            const LED_STRIP_DIVISOR_H = 5;
+            const LED_STRIP_MULTIPLIER = 17; // This is the $17 used in the formula
+
+            // Calculate prices
+            // $85 rate for Lightbox w Backlit (mapped to 'lightboxOnlyPrice' ID)
+            const lightboxWBacklitPrice = areaSqFt * LIGHTBOX_W_BACKLIT_RATE_85; 
+            // $50 rate for Lightbox Only (mapped to 'lightboxStandardPrice' ID)
+            const lightboxOnlyPrice50 = areaSqFt * LIGHTBOX_ONLY_RATE_50; 
+            const backlitOnlyPrice = areaSqFt * BACKLIT_ONLY_RATE;
+            const vinylPrice = areaSqFt * VINYL_RATE;
+            const printedPrice = areaSqFt * PRINTED_RATE; 
+            
+            // --- UPDATED LED STRIP CALCULATION (Using Multiplication for Base Value) ---
+            const baseWValue = (widthInches / LED_STRIP_DIVISOR_W);
+            const baseHValue = (heightInches / LED_STRIP_DIVISOR_H);
+            // Combine values using multiplication as specified by the user's example
+            const ledStripBaseValue = baseWValue * baseHValue; 
+            const ledStripPrice = ledStripBaseValue * LED_STRIP_MULTIPLIER; // Apply the $17 multiplier
+            // --- END UPDATED LED STRIP CALCULATION ---
+
+            // 5. Update the Pricing UI
+            // REMOVED detailed area and dimension display as requested by the user
+            document.getElementById('areaDisplay').textContent = ''; 
+            
+            // Update UI elements
+            // Note: HTML IDs (lightboxOnlyPrice, lightboxStandardPrice) are kept for mapping ease, 
+            // but now hold the prices for Lightbox w Backlit ($85) and Lightbox Only ($50), respectively.
+            document.getElementById('lightboxOnlyPrice').textContent = `$${lightboxWBacklitPrice.toFixed(2)}`;
+            document.getElementById('lightboxStandardPrice').textContent = `$${lightboxOnlyPrice50.toFixed(2)}`; 
+            document.getElementById('backlitPrice').textContent = `$${backlitOnlyPrice.toFixed(2)}`; // Backlit Only price
+            document.getElementById('vinylPrice').textContent = `$${vinylPrice.toFixed(2)}`;
+            document.getElementById('printedPrice').textContent = `$${printedPrice.toFixed(2)}`;
+            document.getElementById('ledStripPrice').textContent = `$${ledStripPrice.toFixed(2)}`; 
+        }
+
+        // Call the function once on load to populate initial values (138" x 38")
+        window.onload = calculatePricing;
+    </script>
+</body>
+</html>
