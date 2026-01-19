@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Halo Design Hub Pricing</title>
+    <meta name="description" content="Professional signage and lighting pricing calculator for Halo Design Hub." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><circle cx='30' cy='30' r='30' fill='%23aee236'/></svg>" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Space Mono"', 'monospace'],
+            },
+            colors: {
+              halo: {
+                green: '#aee236',
+                dark: '#1f2937',
+              }
+            },
+            animation: {
+              blob: "blob 7s infinite",
+              float: "float 6s ease-in-out infinite",
+              "float-up": "float-up 15s linear infinite",
+              ripple: "ripple 0.6s linear forwards",
+              patrol: "patrol 12s ease-in-out infinite",
+              "spin-slow": "spin-slow 12s linear infinite",
+              "breathe": "breathe 3s ease-in-out infinite",
+              "gradient-x": "gradient-x 3s ease infinite",
+              "fade-in": "fadeIn 0.3s ease-out forwards",
+            },
+            keyframes: {
+              blob: {
+                "0%": { transform: "translate(0px, 0px) scale(1)" },
+                "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                "100%": { transform: "translate(0px, 0px) scale(1)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              "float-up": {
+                "0%": { transform: "translateY(110vh) rotate(0deg)", opacity: "0" },
+                "10%": { opacity: "1" },
+                "90%": { opacity: "1" },
+                "100%": { transform: "translateY(-10vh) rotate(360deg)", opacity: "0" }
+              },
+              ripple: {
+                "0%": { transform: "scale(0)", opacity: "0.5" },
+                "100%": { transform: "scale(4)", opacity: "0" },
+              },
+              patrol: {
+                "0%, 100%": { left: "0" },
+                "50%": { left: "calc(100% - 110px)" }
+              },
+              "spin-slow": {
+                "0%": { transform: "rotate(0deg)" },
+                "100%": { transform: "rotate(360deg)" },
+              },
+              "breathe": {
+                "0%, 100%": { transform: "scale(1)" },
+                "50%": { transform: "scale(0.85)" },
+              },
+              "gradient-x": {
+                "0%, 100%": {
+                    "background-size": "200% 200%",
+                    "background-position": "left center"
+                },
+                "50%": {
+                    "background-size": "200% 200%",
+                    "background-position": "right center"
+                },
+              },
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(10px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" }
+              }
+            },
+            boxShadow: {
+              'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+              'glass-hover': '0 20px 40px 0 rgba(31, 38, 135, 0.15)',
+              'neon-green': '0 0 10px #aee236, 0 0 20px #aee236',
+              'inner-3d': 'inset 2px 2px 5px rgba(0,0,0,0.05), inset -2px -2px 5px rgba(255,255,255,0.4)',
+              'inner-3d-dark': 'inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Space Mono', monospace;
+      }
+      * {
+        transition-property: background-color, border-color, color, fill, stroke, opacity, backdrop-filter, transform, box-shadow, text-shadow;
+        transition-duration: 300ms;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .perspective-1000 { perspective: 1000px; }
+      .preserve-3d { transform-style: preserve-3d; }
+      .rotate-x-12 { transform: perspective(1000px) rotateX(12deg); }
+      .rotate-x-0 { transform: perspective(1000px) rotateX(0deg); }
+
+      /* Noise Texture */
+      .bg-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
+        pointer-events: none;
+      }
+      
+      /* --- Enhanced Glassmorphism --- */
+      .glass-surface {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-top: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      }
+      
+      html.dark .glass-surface {
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Interactive Glass Hover Effects */
+      .glass-interactive {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .glass-interactive:hover {
+        background: rgba(255, 255, 255, 0.85);
+        border-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 20px 25px -5px rgba(31, 38, 135, 0.1), 0 10px 10px -5px rgba(31, 38, 135, 0.04);
+        transform: translateY(-2px) scale(1.005);
+      }
+      
+      html.dark .glass-interactive:hover {
+        background: rgba(30, 41, 59, 0.75);
+        border-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Watermark */
+      .watermark-container::before {
+        content: "HALO DESIGN HUB";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-25deg);
+        font-size: clamp(2rem, 5vw, 4rem);
+        font-weight: 900;
+        white-space: nowrap;
+        z-index: 0;
+        pointer-events: none;
+        line-height: 1;
+        color: #000;
+        opacity: 0.03;
+        text-shadow: 1px 1px 0px rgba(255,255,255,0.2);
+      }
+      html.dark .watermark-container::before {
+        color: #fff;
+        opacity: 0.03;
+        text-shadow: none;
+      }
+
+      .text-3d { text-shadow: 0px 1px 2px rgba(0,0,0,0.15); }
+      html.dark .text-3d { text-shadow: 0px 2px 4px rgba(0,0,0,0.5); }
+
+      .text-neon {
+        color: #1f2937;
+        text-shadow: 0 0 10px rgba(174, 226, 54, 0.3);
+      }
+      html.dark .text-neon {
+        color: #fff;
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #aee236;
+      }
+      
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.5); border-radius: 3px; }
+      .dark .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    </style>
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for in-browser JSX compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- jsPDF and AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "jspdf": "https://esm.sh/jspdf@^4.0.0",
+    "jspdf-autotable": "https://esm.sh/jspdf-autotable@^5.0.7"
+  }
+}
+</script>
+</head>
+  <body class="bg-sky-50 dark:bg-gray-950 text-gray-900 dark:text-gray-200 min-h-screen selection:bg-sky-300 selection:text-black flex flex-col overflow-x-hidden">
+    <div id="root" class="w-full min-h-screen flex flex-col relative z-10"></div>
+
+    <script type="text/babel" data-presets="typescript,react">
+        const { useState, useEffect, useMemo, useRef } = React;
+        const { jsPDF } = window.jspdf;
+
+        // --- TYPES ---
+        const Unit = {
+          IN: 'in',
+          FT: 'ft',
+          CM: 'cm',
+          MM: 'mm'
+        };
+
+        const Theme = {
+          LIGHT: 'light',
+          DARK: 'dark'
+        };
+
+        // --- CONSTANTS ---
+        const CM_PER_INCH = 2.54;
+        const MM_PER_INCH = 25.4;
+        const INCHES_PER_FOOT = 12;
+
+        const RATES = {
+          LIGHTBOX_W_BACKLIT: 85,
+          LIGHTBOX_ONLY: 50,
+          BACKLIT_ONLY: 35,
+          BACKLIT_ACRYLIC: 50,
+          TRANS_ONLY: 45,
+          TRANS_ACRYLIC: 60,
+          VINYL_ECO: 15,
+          VINYL_STD: 20,
+          VINYL_PREM: 25,
+          PRINTED_3D: 120,
+        };
+
+        const LED_STRIP_DIVISOR_W = 39;
+        const LED_STRIP_DIVISOR_H = 5;
+        const LED_STRIP_MULTIPLIER = 17;
+
+        const PRESET_ITEMS = [
+          { name: 'LAMINATED A1 MENU', price: 35 },
+          { name: 'LAMINATED A4 MENU', price: 25 },
+          { name: 'STANDARD BANNER', price: 80 },
+          { name: 'A1 POSTER with stand', price: 230 },
+          { name: 'A1 POSTER without stand', price: 180 },
+          { name: 'MENU BOOK', price: 85 },
+          { name: 'Photography Services', price: 40 },
+          { name: 'EASYROLL', price: 280 },
+          { name: 'TRANSFORMER replacement', price: 180 },
+          { name: 'PRICING STICKER', price: 50 },
+          { name: 'T5 LED LIGHT TUBE', price: 25 },
+          { name: 'T8 LED LIGHT TUBE', price: 35 },
+          { name: 'Photo for food delivery platform', price: 10 },
+        ];
+
+        const THEME_STYLES = {
+          gold: {
+            border: 'border-yellow-500/40',
+            text: 'text-yellow-800 dark:text-yellow-300',
+            price: 'text-yellow-700 dark:text-yellow-300',
+            bgHover: '', 
+            decoration: 'bg-yellow-400',
+            shadowHover: '', 
+            modalBg: 'bg-yellow-50/80 dark:bg-yellow-950/40',
+            modalBorder: 'border-yellow-200/50 dark:border-yellow-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#facc15]',
+            textGlow: '[text-shadow:0_0_10px_#facc15]',
+          },
+          blue: {
+            border: 'border-blue-500/40',
+            text: 'text-blue-800 dark:text-blue-300',
+            price: 'text-blue-700 dark:text-blue-300',
+            bgHover: '',
+            decoration: 'bg-blue-400',
+            shadowHover: '',
+            modalBg: 'bg-blue-50/80 dark:bg-blue-950/40',
+            modalBorder: 'border-blue-200/50 dark:border-blue-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#60a5fa]',
+            textGlow: '[text-shadow:0_0_10px_#60a5fa]',
+          },
+          cyan: {
+            border: 'border-cyan-500/40',
+            text: 'text-cyan-800 dark:text-cyan-300',
+            price: 'text-cyan-700 dark:text-cyan-300',
+            bgHover: '',
+            decoration: 'bg-cyan-400',
+            shadowHover: '',
+            modalBg: 'bg-cyan-50/80 dark:bg-cyan-950/40',
+            modalBorder: 'border-cyan-200/50 dark:border-cyan-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#22d3ee]',
+            textGlow: '[text-shadow:0_0_10px_#22d3ee]',
+          },
+          orange: {
+            border: 'border-orange-500/40',
+            text: 'text-orange-800 dark:text-orange-300',
+            price: 'text-orange-700 dark:text-orange-300',
+            bgHover: '',
+            decoration: 'bg-orange-400',
+            shadowHover: '',
+            modalBg: 'bg-orange-50/80 dark:bg-orange-950/40',
+            modalBorder: 'border-orange-200/50 dark:border-orange-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#fb923c]',
+            textGlow: '[text-shadow:0_0_10px_#fb923c]',
+          },
+          gray: {
+            border: 'border-gray-500/40',
+            text: 'text-gray-800 dark:text-gray-300',
+            price: 'text-gray-700 dark:text-gray-300',
+            bgHover: '',
+            decoration: 'bg-gray-300',
+            shadowHover: '',
+            modalBg: 'bg-gray-100/80 dark:bg-gray-900/40',
+            modalBorder: 'border-gray-200/50 dark:border-gray-700/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#e5e7eb]',
+            textGlow: '[text-shadow:0_0_10px_#e5e7eb]',
+          },
+          green: {
+            border: 'border-green-500/40',
+            text: 'text-green-800 dark:text-green-300',
+            price: 'text-green-700 dark:text-green-300',
+            bgHover: '',
+            decoration: 'bg-green-400',
+            shadowHover: '',
+            modalBg: 'bg-green-50/80 dark:bg-green-950/40',
+            modalBorder: 'border-green-200/50 dark:border-green-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#4ade80]',
+            textGlow: '[text-shadow:0_0_10px_#4ade80]',
+          },
+          purple: {
+            border: 'border-purple-500/40',
+            text: 'text-purple-800 dark:text-purple-300',
+            price: 'text-purple-700 dark:text-purple-300',
+            bgHover: '',
+            decoration: 'bg-purple-400',
+            shadowHover: '',
+            modalBg: 'bg-purple-50/80 dark:bg-purple-950/40',
+            modalBorder: 'border-purple-200/50 dark:border-purple-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#c084fc]',
+            textGlow: '[text-shadow:0_0_10px_#c084fc]',
+          },
+          amber: {
+            border: 'border-amber-500/40',
+            text: 'text-amber-800 dark:text-amber-300',
+            price: 'text-amber-700 dark:text-amber-300',
+            bgHover: '',
+            decoration: 'bg-amber-400',
+            shadowHover: '',
+            modalBg: 'bg-amber-50/80 dark:bg-amber-950/40',
+            modalBorder: 'border-amber-200/50 dark:border-amber-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#fbbf24]',
+            textGlow: '[text-shadow:0_0_10px_#fbbf24]',
+          },
+          red: {
+            border: 'border-red-500/40',
+            text: 'text-red-800 dark:text-red-300',
+            price: 'text-red-700 dark:text-red-300',
+            bgHover: '',
+            decoration: 'bg-red-400',
+            shadowHover: '',
+            modalBg: 'bg-red-50/80 dark:bg-red-950/40',
+            modalBorder: 'border-red-200/50 dark:border-red-800/50',
+            dotGlow: 'shadow-[0_0_8px_2px_#ffffff,0_0_16px_4px_#f87171]',
+            textGlow: '[text-shadow:0_0_10px_#f87171]',
+          },
+        };
+
+        // --- UTILS ---
+        const convertToInches = (value, unit) => {
+          switch (unit) {
+            case Unit.IN: return value;
+            case Unit.FT: return value * INCHES_PER_FOOT;
+            case Unit.CM: return value / CM_PER_INCH;
+            case Unit.MM: return value / MM_PER_INCH;
+            default: return 0;
+          }
+        };
+
+        const convertFromInches = (valueInches, targetUnit) => {
+          switch (targetUnit) {
+            case Unit.FT: return valueInches / INCHES_PER_FOOT;
+            case Unit.CM: return valueInches * CM_PER_INCH;
+            case Unit.MM: return valueInches * MM_PER_INCH;
+            case Unit.IN: return valueInches;
+            default: return valueInches;
+          }
+        };
+
+        const calculatePrices = (widthVal, heightVal, unit) => {
+          if (widthVal <= 0 || heightVal <= 0) {
+            return {
+              areaSqFt: 0,
+              prices: {
+                lightboxBacklit: 0,
+                lightboxOnly: 0,
+                backlitOnly: 0,
+                backlitAcrylic: 0,
+                transOnly: 0,
+                transAcrylic: 0,
+                vinylEco: 0,
+                vinylStd: 0,
+                vinylPrem: 0,
+                printed3d: 0,
+                ledStrip: 0
+              },
+              dimensions: { w_in: 0, h_in: 0, w_ft: 0, h_ft: 0, w_cm: 0, h_cm: 0, w_mm: 0, h_mm: 0 }
+            };
+          }
+
+          const w_in = convertToInches(widthVal, unit);
+          const h_in = convertToInches(heightVal, unit);
+
+          const w_ft = convertFromInches(w_in, Unit.FT);
+          const h_ft = convertFromInches(h_in, Unit.FT);
+          const w_cm = convertFromInches(w_in, Unit.CM);
+          const h_cm = convertFromInches(h_in, Unit.CM);
+          const w_mm = convertFromInches(w_in, Unit.MM);
+          const h_mm = convertFromInches(h_in, Unit.MM);
+
+          const areaSqFt = w_ft * h_ft;
+          const prices = {
+            lightboxBacklit: areaSqFt * RATES.LIGHTBOX_W_BACKLIT,
+            lightboxOnly: areaSqFt * RATES.LIGHTBOX_ONLY,
+            backlitOnly: areaSqFt * RATES.BACKLIT_ONLY,
+            backlitAcrylic: areaSqFt * RATES.BACKLIT_ACRYLIC,
+            transOnly: areaSqFt * RATES.TRANS_ONLY,
+            transAcrylic: areaSqFt * RATES.TRANS_ACRYLIC,
+            vinylEco: areaSqFt * RATES.VINYL_ECO,
+            vinylStd: areaSqFt * RATES.VINYL_STD,
+            vinylPrem: areaSqFt * RATES.VINYL_PREM,
+            printed3d: areaSqFt * RATES.PRINTED_3D,
+            ledStrip: (w_in / LED_STRIP_DIVISOR_W) * (h_in / LED_STRIP_DIVISOR_H) * LED_STRIP_MULTIPLIER
+          };
+
+          return {
+            areaSqFt,
+            prices,
+            dimensions: { w_in, h_in, w_ft, h_ft, w_cm, h_cm, w_mm, h_mm }
+          };
+        };
+
+        // --- COMPONENTS ---
+        
+        const Logo = ({ compact = false }) => {
+          return (
+            <div className={`flex flex-col items-start select-none ${compact ? 'scale-75 origin-left' : ''}`}>
+              <div className="flex items-end leading-none filter drop-shadow-md">
+                <span className={`text-gray-800 dark:text-white font-black tracking-tighter leading-none font-mono ${compact ? 'text-2xl sm:text-4xl' : 'text-5xl sm:text-[3.5rem]'} text-3d`}>
+                  hal
+                </span>
+                <div className="flex items-center justify-center -ml-0.5 -mt-1 relative group">
+                  <div className={`${compact ? "w-[24px] h-[24px] sm:w-[35px] sm:h-[35px]" : "w-[45px] h-[45px] sm:w-[60px] sm:h-[60px]"} relative flex items-center justify-center`}>
+                    <svg width="100%" height="100%" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
+                      <circle cx="30" cy="30" r="28" className="stroke-gray-700 dark:stroke-white/90 origin-center animate-spin-slow" strokeWidth="4" fill="none" strokeDasharray="12 6" strokeLinecap="round"/>
+                      <circle cx="30" cy="30" r="20" fill="#aee236" className="shadow-neon-green origin-center animate-breathe" />
+                      <circle cx="30" cy="30" r="4" fill="#1f2937" className="dark:fill-white/80" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              {!compact && (
+                <div className="text-gray-500/80 dark:text-white/60 text-xs sm:text-sm font-semibold tracking-widest mt-0.5 font-mono drop-shadow-sm">
+                  DESIGN HUB
+                </div>
+              )}
+            </div>
+          );
+        };
+
+        const ThemeToggle = ({ currentTheme, onToggle }) => (
+          <button onClick={onToggle} className="relative w-12 h-12 rounded-full focus:outline-none group active:scale-95 transition-transform" aria-label="Toggle Theme">
+            <div className="absolute inset-0 bg-white/30 dark:bg-black/30 rounded-full backdrop-blur-sm border border-white/50 dark:border-white/20 flex items-center justify-center transition-all duration-300 hover:bg-white/50 dark:hover:bg-black/50 shadow-glass hover:shadow-glass-hover transform hover:-translate-y-0.5 hover:scale-105">
+              {currentTheme === Theme.LIGHT ? (
+                <svg className="w-5 h-5 text-gray-700 drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+              ) : (
+                <svg className="w-6 h-6 text-yellow-300 drop-shadow-[0_0_8px_rgba(253,224,71,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+              )}
+            </div>
+          </button>
+        );
+
+        const BackgroundEffects = () => (
+          <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+            <div className="absolute inset-0 z-[1] bg-noise opacity-[0.05]"></div>
+            <div className="absolute inset-0 z-0 dark:opacity-0 transition-opacity duration-1000 ease-in-out">
+              <div className="absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] bg-rose-300/40 rounded-full blur-[100px] mix-blend-multiply animate-blob"></div>
+              <div className="absolute top-[0%] right-[-20%] w-[70vw] h-[70vw] bg-cyan-300/40 rounded-full blur-[100px] mix-blend-multiply animate-blob animation-delay-2000"></div>
+              <div className="absolute bottom-[-20%] left-[10%] w-[70vw] h-[70vw] bg-amber-200/40 rounded-full blur-[100px] mix-blend-multiply animate-blob animation-delay-4000"></div>
+            </div>
+            <div className="absolute inset-0 z-0 opacity-0 dark:opacity-100 transition-opacity duration-1000 ease-in-out">
+              <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[#0f172a] to-[#1e1b4b]"></div>
+              <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] mix-blend-screen animate-blob"></div>
+              <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-4000"></div>
+            </div>
+          </div>
+        );
+
+        const TouchRipple = () => {
+          const [ripples, setRipples] = useState([]);
+
+          useEffect(() => {
+            const handler = (e) => {
+              const id = Date.now();
+              setRipples((p) => [...p, { id, x: e.clientX, y: e.clientY }]);
+              setTimeout(() => setRipples((p) => p.filter((r) => r.id !== id)), 600);
+            };
+            window.addEventListener('pointerdown', handler);
+            return () => window.removeEventListener('pointerdown', handler);
+          }, []);
+
+          return (
+            <div className="fixed inset-0 pointer-events-none z-[100] overflow-hidden">
+              {ripples.map((r) => (
+                <span
+                  key={r.id}
+                  className="absolute rounded-full bg-blue-400/30 animate-ripple"
+                  style={{
+                    left: r.x,
+                    top: r.y,
+                    width: 40,
+                    height: 40,
+                    marginLeft: -20,
+                    marginTop: -20,
+                  }}
+                />
+              ))}
+            </div>
+          );
+        };
+
+        const PricingCard = ({ title, rateDescription, price, colorTheme, onClick }) => {
+          const styles = THEME_STYLES[colorTheme] || THEME_STYLES.gray;
+          return (
+            <button onClick={onClick} className="group relative w-full p-0 outline-none perspective-1000 touch-manipulation h-full">
+              <div className={`relative w-full h-full glass-surface glass-interactive p-4 sm:p-6 rounded-xl flex flex-col justify-between items-start border-t border-x border-b-[4px] ${styles.border}`}>
+                <div className="flex flex-col items-start text-left z-10 w-full">
+                  <span className={`font-bold text-sm sm:text-lg ${styles.text} ${styles.textGlow} transition-colors flex items-start sm:items-center gap-2 leading-tight`}>
+                    <span className={`mt-1 sm:mt-0 min-w-[10px] w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${styles.decoration} ${styles.dotGlow} ring-2 ring-white/30 dark:ring-black/30`}></span>
+                    {title}
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-mono mt-1 font-semibold pl-5 opacity-80">{rateDescription}</span>
+                </div>
+                <div className="w-full flex justify-end mt-2 z-10">
+                  <span className={`text-lg sm:text-2xl font-black font-mono ${styles.price} group-hover:scale-105 transition-transform duration-300 drop-shadow-md`}>${price.toFixed(0)}</span>
+                </div>
+                <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-white/20 via-white/5 to-transparent rounded-r-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+              </div>
+            </button>
+          );
+        };
+
+        const MultiVariantPricingCard = ({ title, variants, colorTheme }) => {
+          const styles = THEME_STYLES[colorTheme] || THEME_STYLES.gray;
+          const gridClass = variants.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
+          return (
+            <div className={`relative w-full glass-surface glass-interactive p-4 sm:p-6 rounded-xl flex flex-col gap-2 sm:gap-3 border-t border-x border-b-[4px] ${styles.border} perspective-1000`}>
+              <div className="flex items-center gap-2 z-10 mb-1">
+                <span className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${styles.decoration} ${styles.dotGlow} ring-2 ring-white/30 dark:ring-black/30`}></span>
+                <span className={`font-bold text-sm sm:text-lg ${styles.text} ${styles.textGlow}`}>{title}</span>
+              </div>
+              <div className={`grid ${gridClass} gap-3 z-10 w-full`}>
+                {variants.map((variant, idx) => (
+                  <button key={idx} onClick={(e) => { e.stopPropagation(); variant.onClick(); }} className="flex flex-col items-center justify-center py-3 px-1 rounded-lg bg-white/40 dark:bg-black/20 border border-white/30 dark:border-white/10 hover:bg-white/60 dark:hover:bg-white/20 transform-gpu transition-all duration-200 shadow-sm hover:shadow-lg hover:scale-105 active:scale-95 group/btn relative overflow-hidden">
+                    <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 font-mono font-bold mb-1 opacity-90">{variant.label}</span>
+                    <span className={`text-sm sm:text-base font-black font-mono ${styles.price} truncate max-w-full px-1 drop-shadow-sm`}>${variant.price.toFixed(0)}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-white/20 via-white/5 to-transparent rounded-r-xl pointer-events-none opacity-50 z-0" />
+            </div>
+          );
+        };
+
+        const QuotationModal = ({ isOpen, data, onClose, onAddToQuote }) => {
+          const [isVisible, setIsVisible] = useState(false);
+          const [isAnimating, setIsAnimating] = useState(false);
+          const [copied, setCopied] = useState(false);
+          
+          useEffect(() => {
+            if (isOpen) {
+              setIsVisible(true);
+              requestAnimationFrame(() => setIsAnimating(true));
+              setCopied(false);
+            } else {
+              setIsAnimating(false);
+              const timer = setTimeout(() => setIsVisible(false), 300);
+              return () => clearTimeout(timer);
+            }
+          }, [isOpen]);
+
+          const handleShare = async () => {
+            if (!data) return;
+            const textToCopy = `Halo Design Hub Quotation\nItem: ${data.title}\nDimensions: ${data.originalWidth} (w) x ${data.originalHeight} (h) ${data.unit}\nPrice: $${data.totalPrice.toFixed(2)}`;
+            try {
+              await navigator.clipboard.writeText(textToCopy);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            } catch (err) {
+              console.error(err);
+            }
+          };
+
+          if (!isVisible) return null;
+          const styles = data ? THEME_STYLES[data.colorTheme] || THEME_STYLES.gray : THEME_STYLES.gray;
+
+          return (
+            <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-500 perspective-1000 ${isAnimating ? 'bg-black/60 backdrop-blur-md' : 'bg-black/0 backdrop-blur-none'}`} onClick={onClose}>
+              <div onClick={(e) => e.stopPropagation()} className={`w-full max-w-lg p-8 relative rounded-3xl shadow-2xl glass-surface ${styles.modalBg} ${styles.modalBorder} watermark-container overflow-hidden transform transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ${isAnimating ? 'scale-100 opacity-100 translate-y-0 rotate-x-0' : 'scale-90 opacity-0 translate-y-24 rotate-x-12'}`}>
+                <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-red-500 transition-colors p-2">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 className="text-2xl font-black mb-6 border-b border-gray-800/10 dark:border-white/10 pb-4 uppercase tracking-tight drop-shadow-sm text-neon">Generated Quote</h3>
+                {data ? (
+                  <div className="space-y-6 relative z-10">
+                    <div className="bg-white/40 dark:bg-black/20 p-5 rounded-2xl border border-white/20 dark:border-white/5 shadow-inner">
+                      <p className="text-[10px] text-gray-600 dark:text-gray-400 uppercase tracking-[0.2em] font-bold mb-2">Item Selection</p>
+                      <div className="text-xl font-bold text-gray-800 dark:text-gray-100 font-mono break-words leading-tight text-3d">{data.title}</div>
+                    </div>
+                    <div className="bg-white/40 dark:bg-black/20 p-5 rounded-2xl border border-white/20 dark:border-white/5 shadow-inner">
+                      <p className="text-[10px] text-gray-600 dark:text-gray-400 uppercase tracking-[0.2em] font-bold mb-2">Dimensions</p>
+                      <div className="text-lg font-bold text-gray-800 dark:text-gray-100 font-mono">{data.originalWidth} (w) x {data.originalHeight} (h) {data.unit}</div>
+                    </div>
+                    <div className="pt-6 border-t border-gray-800/10 dark:border-white/10 flex justify-between items-end">
+                      <p className="font-bold text-lg text-gray-700 dark:text-gray-300 mb-1">Estimated Cost</p>
+                      <div className="text-5xl font-black text-gray-900 dark:text-white font-mono tracking-tight drop-shadow-md">${data.totalPrice.toFixed(2)}</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button onClick={onAddToQuote} className="w-full py-3 rounded-xl font-bold font-mono text-sm uppercase tracking-wider bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-lg hover:scale-[1.02] transition-transform">Add to List</button>
+                      <button onClick={handleShare} className={`w-full py-3 rounded-xl font-bold font-mono text-sm uppercase tracking-wider border transition-all ${copied ? 'bg-green-500/20 text-green-700 border-green-500/30' : 'bg-white/40 text-gray-700 border-white/40 hover:bg-white/60'}`}>{copied ? 'Copied!' : 'Share'}</button>
+                    </div>
+                  </div>
+                ) : <div className="text-center py-8 text-red-500 font-bold">Invalid dimensions.</div>}
+              </div>
+            </div>
+          );
+        };
+
+        const QuotationList = ({
+          isOpen,
+          onClose,
+          items,
+          onRemoveItem,
+          onUpdateQuantity,
+          onClearAll,
+          onAddCustomItem,
+          onUpdateItem
+        }) => {
+          const [isVisible, setIsVisible] = useState(false);
+          const [isAnimating, setIsAnimating] = useState(false);
+          const [copied, setCopied] = useState(false);
+          const [showClearConfirm, setShowClearConfirm] = useState(false);
+          const [showCustomForm, setShowCustomForm] = useState(false);
+          
+          const [customName, setCustomName] = useState('');
+          const [customWidth, setCustomWidth] = useState('');
+          const [customHeight, setCustomHeight] = useState('');
+          const [customUnit, setCustomUnit] = useState(Unit.IN);
+          const [customPrice, setCustomPrice] = useState('');
+          
+          const [discountType, setDiscountType] = useState('none');
+          const [discountValue, setDiscountValue] = useState(0);
+
+          const grandTotal = items.reduce((sum, item) => sum + (item.totalPrice * item.quantity), 0);
+          const discountAmount = discountType === 'percent' 
+            ? grandTotal * (discountValue / 100) 
+            : (discountType === 'fixed' ? discountValue : 0);
+          const finalTotal = Math.max(0, grandTotal - discountAmount);
+
+          useEffect(() => {
+            if (isOpen) {
+              setIsVisible(true);
+              requestAnimationFrame(() => setIsAnimating(true));
+              setCopied(false);
+              setShowClearConfirm(false);
+            } else {
+              setIsAnimating(false);
+              const timer = setTimeout(() => setIsVisible(false), 500);
+              return () => clearTimeout(timer);
+            }
+          }, [isOpen]);
+
+          const handleAddCustom = () => {
+             if (!customName || customPrice === '') return;
+             const price = parseFloat(customPrice);
+             const w = parseFloat(customWidth);
+             const h = parseFloat(customHeight);
+             const hasDimensions = !isNaN(w) && !isNaN(h) && w > 0 && h > 0;
+             
+             onAddCustomItem({
+               id: Date.now().toString(),
+               timestamp: Date.now(),
+               quantity: 1,
+               title: customName,
+               totalPrice: isNaN(price) ? 0 : price,
+               widthInches: 0, 
+               heightInches: 0,
+               unit: hasDimensions ? customUnit : Unit.IN,
+               originalWidth: hasDimensions ? w : 0,
+               originalHeight: hasDimensions ? h : 0,
+               colorTheme: 'gray'
+             });
+
+             setCustomName('');
+             setCustomPrice('');
+             setCustomWidth('');
+             setCustomHeight('');
+             setShowCustomForm(false);
+          };
+
+          const handleShare = async () => {
+            if (items.length === 0) return;
+            const d = new Date();
+            const dateStr = d.toLocaleDateString('en-GB');
+            let text = `Halo Design Hub Quotation List\nDate: ${dateStr}\n------------------------\n`;
+            items.forEach((item, i) => {
+              text += `${i+1}. ${item.title}\n`;
+              if (item.originalWidth > 0) text += `   Size: ${item.originalWidth}(w) x ${item.originalHeight}(h) ${item.unit}\n`;
+              text += `   Qty: ${item.quantity} | Unit: $${item.totalPrice.toFixed(2)}\n`;
+            });
+            text += `------------------------\n${discountType !== 'none' ? `Subtotal: $${grandTotal.toFixed(2)}\nDiscount: -$${discountAmount.toFixed(2)}\n` : ''}Total: $${finalTotal.toFixed(2)}`;
+            
+            try {
+              await navigator.clipboard.writeText(text);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            } catch {}
+          };
+
+          const handleDownloadPDF = () => {
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFont("courier", "bold");
+            doc.setFontSize(24);
+            doc.setTextColor(31, 41, 55); // Gray 800
+            doc.text("HALO DESIGN HUB", 14, 20);
+            
+            // QUOTATION title - same size as company name
+            doc.text("QUOTATION", 14, 30);
+            
+            doc.setFont("courier", "normal");
+            doc.setFontSize(10);
+            doc.setTextColor(107, 114, 128); // Gray 500
+            doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 14, 38);
+            
+            const tableBody = items.map((item, index) => [
+                index + 1,
+                item.title,
+                item.originalWidth > 0 ? `${item.originalWidth}x${item.originalHeight} ${item.unit}` : '-',
+                item.quantity,
+                `$${item.totalPrice.toFixed(2)}`,
+                `$${(item.totalPrice * item.quantity).toFixed(2)}`
+            ]);
+
+            doc.autoTable({
+                head: [['#', 'Item', 'Dimensions', 'Qty', 'Unit', 'Total']],
+                body: tableBody,
+                startY: 45,
+                theme: 'plain',
+                styles: {
+                    font: 'courier',
+                    fontSize: 9,
+                    cellPadding: 3,
+                    lineColor: [229, 231, 235], // Gray 200
+                    lineWidth: 0.1,
+                },
+                headStyles: {
+                    fillColor: [243, 244, 246], // Gray 100
+                    textColor: [31, 41, 55], // Gray 800
+                    fontStyle: 'bold',
+                    lineWidth: 0,
+                },
+                columnStyles: {
+                    0: { cellWidth: 10 },
+                    1: { cellWidth: 'auto' },
+                    2: { cellWidth: 35 },
+                    3: { cellWidth: 15, halign: 'center' },
+                    4: { cellWidth: 25, halign: 'right' },
+                    5: { cellWidth: 25, halign: 'right' },
+                },
+                footStyles: {
+                    fillColor: [255, 255, 255],
+                    textColor: [31, 41, 55],
+                    fontStyle: 'bold',
+                    halign: 'right'
+                }
+            });
+            
+            const finalY = doc.lastAutoTable.finalY + 10;
+            
+            doc.setFont("courier", "normal");
+            doc.setFontSize(10);
+            doc.setTextColor(31, 41, 55);
+
+            const rightMargin = 196; // 210 - 14
+            
+            const textRight = (str, y, options) => {
+                doc.text(str, rightMargin, y, { align: 'right', ...options });
+            };
+
+            textRight(`Subtotal: $${grandTotal.toFixed(2)}`, finalY);
+            
+            if (discountType !== 'none' && discountAmount > 0) {
+                doc.setTextColor(239, 68, 68); // Red 500
+                textRight(`Discount: -$${discountAmount.toFixed(2)}`, finalY + 6);
+                doc.setTextColor(31, 41, 55);
+            }
+            
+            doc.setFont("courier", "bold");
+            doc.setFontSize(14);
+            textRight(`Total: $${finalTotal.toFixed(2)}`, finalY + 14);
+
+            doc.save(`Halo_Quote_${Date.now()}.pdf`);
+          };
+
+          if (!isVisible) return null;
+
+          return (
+            <div className={`fixed inset-0 z-[60] flex items-center justify-center p-4 transition-all duration-500 perspective-1000 ${isAnimating ? 'bg-black/10 backdrop-blur-[2px]' : 'bg-black/0 backdrop-blur-none pointer-events-none'}`} onClick={onClose}>
+              <div 
+                onClick={(e) => e.stopPropagation()} 
+                className={`w-full max-w-3xl h-[85vh] flex flex-col bg-[#f5f5f7]/70 dark:bg-[#1e1e1e]/60 backdrop-blur-2xl shadow-2xl rounded-2xl overflow-hidden border border-white/40 dark:border-white/10 transform transition-all duration-500 ring-1 ring-black/5 ${isAnimating ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-0 translate-y-8'}`}
+              >
+                <div className="h-14 px-4 border-b border-gray-300/30 dark:border-white/10 flex justify-between items-center bg-white/30 dark:bg-white/5 shrink-0 draggable">
+                  <div className="flex gap-2 items-center">
+                     <div className="flex gap-2 group mr-4">
+                        <button onClick={onClose} className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 border border-red-600/20 flex items-center justify-center transition-colors">
+                           <svg className="w-2 h-2 text-red-900 opacity-0 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                        <button onClick={() => {}} className="w-3 h-3 rounded-full bg-yellow-500 border border-yellow-600/20 cursor-default"></button>
+                        <button onClick={() => {}} className="w-3 h-3 rounded-full bg-green-500 border border-green-600/20 cursor-default"></button>
+                     </div>
+                     <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200 tracking-tight">Quotations</h2>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => setShowCustomForm(!showCustomForm)} 
+                      className={`p-1.5 rounded-md transition-all duration-200 ${showCustomForm ? 'bg-black/10 dark:bg-white/20 text-gray-800 dark:text-white' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'}`}
+                      title="Add Item"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/></svg>
+                    </button>
+                    <button 
+                      onClick={() => items.length > 0 && setShowClearConfirm(true)} 
+                      disabled={items.length === 0}
+                      className={`p-1.5 rounded-md transition-all duration-200 ${items.length === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-500 hover:text-red-500'}`}
+                      title="Clear All"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="flex-1 relative min-h-0 flex flex-col bg-transparent">
+                   <div className={`overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${showCustomForm ? 'max-h-[600px] border-b border-gray-200/30 dark:border-white/10' : 'max-h-0'}`}>
+                      <div className="p-4 bg-white/40 dark:bg-black/40 space-y-3">
+                         
+                         <div className="flex justify-center w-full">
+                             <div className="relative w-full sm:w-2/3 bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10 rounded-xl backdrop-blur-md hover:bg-white/20 dark:hover:bg-white/10 transition-colors group shadow-sm">
+                                 <select 
+                                    onChange={(e) => { const i = PRESET_ITEMS.find(p => p.name === e.target.value); if(i) { setCustomName(i.name); setCustomPrice(i.price.toString()); } }} 
+                                    className="w-full p-2.5 pr-10 text-sm font-medium bg-transparent border-none outline-none appearance-none truncate text-gray-700 dark:text-gray-200 cursor-pointer text-center"
+                                    value=""
+                                 >
+                                    <option value="" disabled className="hidden">Quick Select</option>
+                                    <option value="" className="text-gray-400 bg-white dark:bg-gray-800">Quick Select</option>
+                                    {PRESET_ITEMS.map(i => <option key={i.name} value={i.name} className="bg-white dark:bg-gray-800">{i.name}</option>)}
+                                 </select>
+                                 <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200 transition-colors">
+                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <div className="w-full bg-white/50 dark:bg-black/30 rounded-lg focus-within:ring-2 focus-within:ring-blue-500/50 transition-all border border-transparent focus-within:border-blue-500/30">
+                             <input 
+                               type="text" 
+                               value={customName} 
+                               onChange={e => setCustomName(e.target.value)} 
+                               placeholder="Item Name" 
+                               className="w-full p-2.5 text-sm bg-transparent border-none outline-none placeholder-gray-500 text-gray-900 dark:text-gray-100 text-center sm:text-left" 
+                             />
+                         </div>
+
+                         <div className="flex flex-col sm:flex-row gap-3">
+                            <div className="flex gap-2 w-full sm:flex-1">
+                                <input type="number" value={customWidth} onChange={e => setCustomWidth(e.target.value)} placeholder="W" className="w-1/3 p-2 text-sm bg-white/50 dark:bg-black/30 rounded-lg border-none outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-900 dark:text-gray-100" />
+                                <input type="number" value={customHeight} onChange={e => setCustomHeight(e.target.value)} placeholder="H" className="w-1/3 p-2 text-sm bg-white/50 dark:bg-black/30 rounded-lg border-none outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-900 dark:text-gray-100" />
+                                <select value={customUnit} onChange={e => setCustomUnit(e.target.value)} className="w-1/3 p-2 bg-white/50 dark:bg-black/30 rounded-lg border-none outline-none text-xs text-gray-700 dark:text-gray-300">
+                                   <option value={Unit.IN} className="bg-white dark:bg-gray-800">in</option>
+                                   <option value={Unit.FT} className="bg-white dark:bg-gray-800">ft</option>
+                                </select>
+                            </div>
+                            <div className="flex gap-2 w-full sm:w-1/3 sm:min-w-[140px]">
+                                <input type="number" value={customPrice} onChange={e => setCustomPrice(e.target.value)} placeholder="Price" className="flex-1 p-2 text-sm bg-white/50 dark:bg-black/30 rounded-lg border-none outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-900 dark:text-gray-100" />
+                                <button onClick={handleAddCustom} disabled={!customName} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-lg text-xs font-bold transition-colors shadow-sm disabled:opacity-50">Add</button>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+
+                   {showClearConfirm && (
+                      <div className="absolute inset-0 z-20 bg-white/50 dark:bg-black/50 backdrop-blur-sm flex items-center justify-center p-8">
+                         <div className="bg-white/90 dark:bg-[#333]/90 p-6 rounded-2xl shadow-xl text-center border border-gray-200 dark:border-white/10 max-w-sm w-full transform scale-100 animate-fade-in">
+                            <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">Clear all items?</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">This action cannot be undone.</p>
+                            <div className="flex gap-3 justify-center">
+                               <button onClick={() => setShowClearConfirm(false)} className="flex-1 px-4 py-2 rounded-lg bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">Cancel</button>
+                               <button onClick={() => { onClearAll(); setShowClearConfirm(false); }} className="flex-1 px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 shadow-md transition-colors">Clear</button>
+                            </div>
+                         </div>
+                      </div>
+                   )}
+
+                   <div className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
+                      {items.length === 0 && !showCustomForm && (
+                        <div className="h-full flex flex-col items-center justify-center text-gray-400 dark:text-gray-500">
+                            <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <p className="text-sm font-medium">No items in the list</p>
+                        </div>
+                      )}
+                      {items.map(item => (
+                         <div key={item.id} className="group relative bg-white/60 dark:bg-black/40 rounded-xl p-3 shadow-sm border border-white/40 dark:border-white/5 flex gap-4 items-center transition-all duration-200 hover:shadow-md hover:bg-white/80 dark:hover:bg-black/60 hover:scale-[1.005]">
+                            <div className="flex-1 min-w-0">
+                               <div className="flex items-baseline justify-between mb-1">
+                                  <h4 className="font-semibold text-sm text-gray-900 dark:text-gray-100 truncate pr-2" title={item.title}>{item.title}</h4>
+                               </div>
+                               {(item.originalWidth > 0) && (
+                                   <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-mono">
+                                       <span className="bg-gray-100/50 dark:bg-white/5 px-1.5 rounded">{item.originalWidth}x{item.originalHeight} {item.unit}</span>
+                                       <span className="opacity-50">|</span>
+                                       <span>${item.totalPrice}/ea</span>
+                                   </div>
+                               )}
+                               {!(item.originalWidth > 0) && (
+                                   <div className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                                       ${item.totalPrice}/ea
+                                   </div>
+                               )}
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                               <div className="flex flex-col items-end">
+                                  <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">Qty</label>
+                                  <input 
+                                     type="number" 
+                                     min="0" 
+                                     value={item.quantity === 0 ? '' : item.quantity} 
+                                     onChange={(e) => {
+                                        const val = parseInt(e.target.value);
+                                        if (isNaN(val)) {
+                                           onUpdateItem(item.id, { quantity: 0 });
+                                        } else if (val >= 0) {
+                                           onUpdateItem(item.id, { quantity: val });
+                                        }
+                                     }}
+                                     onBlur={() => {
+                                        if (item.quantity === 0) {
+                                           onUpdateItem(item.id, { quantity: 1 });
+                                        }
+                                     }}
+                                     className="w-16 p-1.5 text-right text-sm font-mono font-bold bg-white/50 dark:bg-black/20 rounded-md border border-gray-200/50 dark:border-white/10 outline-none focus:ring-2 focus:ring-blue-500/30 transition-all text-gray-900 dark:text-white"
+                                  />
+                               </div>
+
+                               <div className="text-right min-w-[70px]">
+                                  <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5 block">Total</label>
+                                  <div className="font-bold text-gray-900 dark:text-white font-mono text-base">${(item.totalPrice * item.quantity).toFixed(0)}</div>
+                               </div>
+                               
+                               <button 
+                                 onClick={() => onRemoveItem(item.id)} 
+                                 className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+                                 title="Remove Item"
+                               >
+                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                               </button>
+                            </div>
+                         </div>
+                      ))}
+                   </div>
+                </div>
+
+                <div className="p-4 bg-white/40 dark:bg-black/40 border-t border-white/20 dark:border-white/10 backdrop-blur-md">
+                   <div className="flex flex-col gap-4">
+                       <div className="flex items-center justify-between">
+                           <div className="flex items-center gap-2">
+                               <span className="text-xs font-semibold text-red-500 uppercase tracking-wide">Discount</span>
+                               <div className="flex bg-white/30 dark:bg-white/5 rounded-lg p-0.5">
+                                   <button onClick={() => {setDiscountType('percent'); setDiscountValue(5)}} className={`px-2.5 py-1 text-xs rounded-md transition-all font-medium ${discountType==='percent'&&discountValue===5 ? 'bg-white dark:bg-gray-600 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'}`}>5%</button>
+                                   <button onClick={() => {setDiscountType('percent'); setDiscountValue(10)}} className={`px-2.5 py-1 text-xs rounded-md transition-all font-medium ${discountType==='percent'&&discountValue===10 ? 'bg-white dark:bg-gray-600 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'}`}>10%</button>
+                               </div>
+                               <div className="relative group">
+                                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                                  <input 
+                                    type="number" 
+                                    value={discountType==='fixed'?discountValue:''} 
+                                    onChange={e => {setDiscountType('fixed'); setDiscountValue(parseFloat(e.target.value)||0)}} 
+                                    placeholder="0"
+                                    className="w-20 py-1 pl-4 pr-2 text-xs bg-white/50 dark:bg-white/5 rounded-md border-none outline-none focus:ring-1 focus:ring-blue-500 text-right font-mono text-gray-900 dark:text-white"
+                                  />
+                               </div>
+                           </div>
+                           
+                           <div className="text-right">
+                               <div className="text-xs text-gray-500 mb-1">Total Amount</div>
+                               <div className="text-3xl font-bold font-mono text-gray-900 dark:text-white tracking-tight">${finalTotal.toFixed(2)}</div>
+                               {discountAmount > 0 && (
+                                  <div className="text-xs font-bold text-red-500 font-mono mt-1">
+                                    Discount: -${discountAmount.toFixed(2)}
+                                  </div>
+                               )}
+                           </div>
+                       </div>
+
+                       <div className="flex gap-3">
+                         <button 
+                           onClick={handleDownloadPDF} 
+                           disabled={items.length===0} 
+                           className={`flex-1 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg active:scale-[0.99] flex items-center justify-center gap-2 ${
+                              items.length===0
+                              ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
+                              : 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/30'
+                           }`}
+                         >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            <span>PDF</span>
+                         </button>
+
+                         <button 
+                           onClick={handleShare} 
+                           disabled={items.length===0} 
+                           className={`flex-[2] py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg active:scale-[0.99] flex items-center justify-center gap-2 ${
+                              copied 
+                              ? 'bg-green-500 text-white shadow-green-500/30' 
+                              : 'bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 shadow-gray-900/20'
+                           }`}
+                         >
+                           {copied ? (
+                               <>
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/></svg>
+                                  <span>COPIED</span>
+                               </>
+                           ) : (
+                               <>
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                                  <span>SHARE LIST</span>
+                               </>
+                           )}
+                         </button>
+                       </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        const App = () => {
+          const [theme, setTheme] = useState(Theme.LIGHT);
+          const [unit, setUnit] = useState(Unit.IN);
+          const [width, setWidth] = useState('117');
+          const [height, setHeight] = useState('30');
+          const [modalOpen, setModalOpen] = useState(false);
+          const [modalData, setModalData] = useState(null);
+          const [quoteItems, setQuoteItems] = useState([]);
+          const [quoteListOpen, setQuoteListOpen] = useState(false);
+
+          useEffect(() => {
+            const saved = localStorage.getItem('theme');
+            if (saved) setTheme(saved);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme(Theme.DARK);
+          }, []);
+
+          useEffect(() => {
+            document.documentElement.classList.toggle('dark', theme === Theme.DARK);
+            document.documentElement.classList.toggle('light', theme === Theme.LIGHT);
+            localStorage.setItem('theme', theme);
+          }, [theme]);
+
+          const { prices, dimensions } = useMemo(
+            () => calculatePrices(parseFloat(width) || 0, parseFloat(height) || 0, unit),
+            [width, height, unit]
+          );
+
+          const handleOpenQuote = (title, price, colorTheme) => {
+            if (parseFloat(width) <= 0 || parseFloat(height) <= 0) {
+              setModalData(null);
+            } else {
+              setModalData({
+                title,
+                totalPrice: price,
+                widthInches: dimensions.w_in,
+                heightInches: dimensions.h_in,
+                unit,
+                originalWidth: parseFloat(width),
+                originalHeight: parseFloat(height),
+                colorTheme,
+              });
+            }
+            setModalOpen(true);
+          };
+
+          const handleAddToQuote = () => {
+            if (!modalData) return;
+            setQuoteItems((p) => [
+              ...p,
+              {
+                ...modalData,
+                id: Date.now().toString(),
+                timestamp: Date.now(),
+                quantity: 1,
+              },
+            ]);
+            setModalOpen(false);
+            setQuoteListOpen(true);
+          };
+
+          const handleUpdateQuantity = (id, delta) => {
+            setQuoteItems((prev) =>
+              prev.map((item) => {
+                if (item.id === id) {
+                  const newQuantity = Math.max(1, item.quantity + delta);
+                  return { ...item, quantity: newQuantity };
+                }
+                return item;
+              })
+            );
+          };
+
+          return (
+            <div className="flex flex-col min-h-screen relative overflow-hidden bg-sky-50 dark:bg-sky-950 transition-colors duration-700">
+              <TouchRipple />
+              <BackgroundEffects />
+
+              <header className="sticky top-0 z-40 w-full glass-surface border-b-0 h-14 sm:h-20 flex items-center justify-center">
+                <div className="absolute inset-y-0 left-4 right-28 pointer-events-none flex items-center">
+                  <div className="animate-patrol">
+                    <Logo compact />
+                  </div>
+                </div>
+                <div className="absolute right-4 flex items-center gap-3">
+                  <button
+                    onClick={() => setQuoteListOpen(true)}
+                    className="relative w-10 h-10 rounded-full bg-white/30 dark:bg-black/30 border border-white/40 flex items-center justify-center shadow-glass hover:scale-105 transition-transform"
+                  >
+                    <svg
+                      className="w-5 h-5 text-gray-700 dark:text-gray-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                      ></path>
+                    </svg>
+                    {quoteItems.length > 0 && (
+                      <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold">
+                        {quoteItems.reduce((a, b) => a + b.quantity, 0)}
+                      </span>
+                    )}
+                  </button>
+                  <ThemeToggle
+                    currentTheme={theme}
+                    onToggle={() => setTheme((t) => (t === Theme.LIGHT ? Theme.DARK : Theme.LIGHT))}
+                  />
+                </div>
+              </header>
+
+              <main className="flex-grow flex items-start justify-center p-4 relative z-10">
+                <div className="w-full max-w-xl">
+                  <div className="w-full glass-surface p-6 rounded-3xl watermark-container relative overflow-hidden transition-all duration-500">
+                    <div className="relative z-10 text-center mb-6">
+                      <h1 className="text-3xl font-black tracking-tight uppercase bg-gradient-to-r from-red-500 via-yellow-500 to-pink-500 bg-clip-text text-transparent animate-gradient-x drop-shadow-sm">
+                        Pricing Calculator
+                      </h1>
+                    </div>
+
+                    <div className="space-y-4 mb-6 p-4 rounded-2xl bg-white/20 dark:bg-black/10 border border-white/30 dark:border-white/5 relative z-10 backdrop-blur-md">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="col-span-2">
+                          <label className="block text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 mb-1">
+                            Measurement Unit
+                          </label>
+                          <select
+                            value={unit}
+                            onChange={(e) => setUnit(e.target.value)}
+                            className="w-full py-3 px-4 rounded-xl bg-gray-50/50 dark:bg-gray-800/40 border border-white/40 dark:border-white/10 font-mono text-lg font-bold outline-none focus:ring-2 focus:ring-lime-400/50"
+                          >
+                            <option value={Unit.IN}>Inches (in)</option>
+                            <option value={Unit.FT}>Feet (ft)</option>
+                            <option value={Unit.CM}>Centimeters (cm)</option>
+                            <option value={Unit.MM}>Millimeters (mm)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 mb-1">
+                            Width
+                          </label>
+                          <input
+                            type="number"
+                            value={width}
+                            onChange={(e) => setWidth(e.target.value)}
+                            className="w-full py-3 px-4 rounded-xl bg-gray-50/50 dark:bg-gray-800/40 border border-white/40 dark:border-white/10 font-mono text-lg font-bold outline-none focus:ring-2 focus:ring-lime-400/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 mb-1">
+                            Height
+                          </label>
+                          <input
+                            type="number"
+                            value={height}
+                            onChange={(e) => setHeight(e.target.value)}
+                            className="w-full py-3 px-4 rounded-xl bg-gray-50/50 dark:bg-gray-800/40 border border-white/40 dark:border-white/10 font-mono text-lg font-bold outline-none focus:ring-2 focus:ring-lime-400/50"
+                          />
+                        </div>
+                      </div>
+                      <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono flex gap-4 justify-between">
+                        <span>
+                          <strong>ft:</strong> {dimensions.w_ft.toFixed(2)}x{dimensions.h_ft.toFixed(2)}
+                        </span>
+                        <span>
+                          <strong>cm:</strong> {dimensions.w_cm.toFixed(0)}x{dimensions.h_cm.toFixed(0)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-white/20 dark:border-white/5 relative z-10">
+                      <div className="grid grid-cols-2 gap-4">
+                        <PricingCard
+                          title="Lightbox w Backlit"
+                          rateDescription="$85/sq ft"
+                          price={prices.lightboxBacklit}
+                          colorTheme="gold"
+                          onClick={() => handleOpenQuote('Lightbox w Backlit', prices.lightboxBacklit, 'gold')}
+                        />
+                        <PricingCard
+                          title="Lightbox Only"
+                          rateDescription="$50/sq ft"
+                          price={prices.lightboxOnly}
+                          colorTheme="blue"
+                          onClick={() => handleOpenQuote('Lightbox Only', prices.lightboxOnly, 'blue')}
+                        />
+                        <PricingCard
+                          title="3D Printed"
+                          rateDescription="$120/sq ft"
+                          price={prices.printed3d}
+                          colorTheme="purple"
+                          onClick={() => handleOpenQuote('3D Printed Sign', prices.printed3d, 'purple')}
+                        />
+                        <PricingCard
+                          title="LED Strip"
+                          rateDescription="$17/m formula"
+                          price={prices.ledStrip}
+                          colorTheme="red"
+                          onClick={() => handleOpenQuote('LED Strip Lighting', prices.ledStrip, 'red')}
+                        />
+                        <div className="col-span-2">
+                          <MultiVariantPricingCard
+                            title="Backlit Only"
+                            colorTheme="cyan"
+                            variants={[
+                              {
+                                label: 'No Acrylic ($35)',
+                                price: prices.backlitOnly,
+                                onClick: () => handleOpenQuote('Backlit Only (No Acrylic)', prices.backlitOnly, 'cyan'),
+                              },
+                              {
+                                label: 'w/ Acrylic ($50)',
+                                price: prices.backlitAcrylic,
+                                onClick: () => handleOpenQuote('Backlit Only (w/ Acrylic)', prices.backlitAcrylic, 'cyan'),
+                              },
+                            ]}
+                          />
+                        </div>
+                        <div className="col-span-2">
+                          <MultiVariantPricingCard
+                            title="Trans Only"
+                            colorTheme="orange"
+                            variants={[
+                              {
+                                label: 'No Acrylic ($45)',
+                                price: prices.transOnly,
+                                onClick: () => handleOpenQuote('Trans Only (No Acrylic)', prices.transOnly, 'orange'),
+                              },
+                              {
+                                label: 'w/ Acrylic ($60)',
+                                price: prices.transAcrylic,
+                                onClick: () => handleOpenQuote('Trans Only (w/ Acrylic)', prices.transAcrylic, 'orange'),
+                              },
+                            ]}
+                          />
+                        </div>
+                        <div className="col-span-2">
+                          <MultiVariantPricingCard
+                            title="Vinyl Graphics"
+                            colorTheme="green"
+                            variants={[
+                              {
+                                label: '$15/sq ft',
+                                price: prices.vinylEco,
+                                onClick: () => handleOpenQuote('Vinyl Graphics ($15/sq ft)', prices.vinylEco, 'green'),
+                              },
+                              {
+                                label: '$20/sq ft',
+                                price: prices.vinylStd,
+                                onClick: () => handleOpenQuote('Vinyl Graphics ($20/sq ft)', prices.vinylStd, 'green'),
+                              },
+                              {
+                                label: '$25/sq ft',
+                                price: prices.vinylPrem,
+                                onClick: () => handleOpenQuote('Vinyl Graphics ($25/sq ft)', prices.vinylPrem, 'green'),
+                              },
+                            ]}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <QuotationModal
+                  isOpen={modalOpen}
+                  data={modalData}
+                  onClose={() => setModalOpen(false)}
+                  onAddToQuote={handleAddToQuote}
+                />
+                <QuotationList
+                  isOpen={quoteListOpen}
+                  onClose={() => setQuoteListOpen(false)}
+                  items={quoteItems}
+                  onRemoveItem={(id) => setQuoteItems((p) => p.filter((i) => i.id !== id))}
+                  onUpdateQuantity={handleUpdateQuantity}
+                  onClearAll={() => setQuoteItems([])}
+                  onAddCustomItem={(i) => setQuoteItems((p) => [...p, i])}
+                  onUpdateItem={(id, u) => setQuoteItems((p) => p.map((i) => (i.id === id ? { ...i, ...u } : i)))}
+                />
+              </main>
+              <footer className="w-full py-4 relative z-10 h-12 flex items-center justify-center">
+                <p className="text-[10px] font-mono font-bold tracking-widest uppercase drop-shadow-sm text-neon">
+                  &copy; {new Date().getFullYear()} Halo Design Hub.
+                </p>
+              </footer>
+            </div>
+          );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+  </body>
+</html>
